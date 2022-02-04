@@ -23,30 +23,47 @@ class ArrayStack(Stack):
         return np.zeros(n, np.object)
     
     def resize(self):
-        '''
-            Resize the array
-        '''
-        pass 
+        b = self.new_array(max(1, 2 * self.n))
+        for i in range(self.n):
+            b[i] = self.a[i]
+        self.a = b
 
     def get(self, i : int) -> np.object:
-        pass 
+        if i < 0 or i >= self.n:
+            raise IndexError
+        return self.a[i]
     
     def set(self, i : int, x : np.object) -> object:
-        pass 
+        if i < 0 or i >= self.n:
+            raise IndexError
+        y = self.a[i]
+        self.a[i] = x
+        return y
     
     def add(self, i: int, x : np.object) :
         '''
             shift all j > i one position to the right
             and add element x in position i
         '''
-        pass 
+        if i < 0 or i > self.n:
+            raise IndexError()
+        if self.n == len(self.a):
+            self.resize()
+        for k in range(self.n - 1, i - 1, -1):
+            self.a[k + 1] = self.a[k]
+            self.a[i] = x
+            self.n += 1
+
+        pass
+
 
     def remove(self, i : int) -> np.object :
-        '''
-            remove element i and shift all j > i one 
-            position to the left
-        '''
-        pass 
+        if i < 0 or i > self.n:
+            raise IndexError()
+        x = self.a[i]
+        for k in range(i, self.n):
+            self.a[k] = self.a[k + 1]
+        return x
 
     def push(self, x : np.object) :
         self.add(self.n, x)
@@ -88,7 +105,7 @@ class ArrayStack(Stack):
         '''
         if self.iterator < self.n:
             x = self.a[self.iterator]
-            self.iterator +=1
+            self.iterator += 1
         else:
              raise StopIteration()
         return x
