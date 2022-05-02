@@ -4,22 +4,33 @@ import numpy as np
 
 class SLLStack(Stack):
     class Node:
-        def __init__(self, x : np.object) :
+        def __init__(self, x: np.object):
             self.next = None
             self.x = x
-            
-    def __init__(self) :
+
+    def __init__(self):
         self.head = None
         self.tail = None
         self.n = 0
-   
-    def push(self, x : np.object) :
-       # todo
-       pass
-        
+
+    def push(self, x: np.object):
+        new_node = self.Node(x)
+        new_node.next = self.head
+        self.head = new_node
+        self.n += 1
+        if self.n == 1:
+            self.tail = new_node
+
     def pop(self) -> np.object:
-        # todo
-        pass
+        if self.n == 0:
+            raise IndexError()
+        temp = self.head
+        self.head = self.head.next
+        self.n -= 1
+        if self.n == 0:
+            self.tail = None
+        return temp.x
+
 
     def size(self) -> int:
         return self.n
@@ -43,9 +54,5 @@ class SLLStack(Stack):
             x = self.iterator.x
             self.iterator = self.iterator.next
         else:
-             raise StopIteration()
+            raise StopIteration()
         return x
-
-
-
-

@@ -5,8 +5,8 @@ import numpy as np
 
 
 class DLLDeque(Deque, DLList):
-    def __init__(self) :
-        DLListList.__init__(self)
+    def __init__(self):
+        DLList.__init__(self)
    
     def add_first(self, x : np.object):
         self.add(0, x)

@@ -1,27 +1,35 @@
 import numpy as np
 import ArrayStack
-import BinaryTree
-import ChainedHashTable
-import DLList
-import operator
+#import BinaryTree
+#import ChainedHashTable
+#import DLList
+#import operator
 
 class Calculator:
     def __init__(self) :
-        self.dict = ChainedHashTable.ChainedHashTable(DLList.DLList)
+        self.dict = None #ChainedHashTable.ChainedHashTable(DLList.DLList)
 
-    def set_variable(self, k :str, v : float) :
-        self.dict.add(k,v)
+    def set_variable(self, k: str, v: float):
+        self.dict.add(k, v)
         
-    def matched_expression(self, s : str) -> bool :
+    def matched_expression(self, s: str) -> bool:
+        parens = ArrayStack.ArrayStack()
+        for c in s:
+            if c == "(":
+                parens.push(c)
+            if c == ")":
+                if parens.size() > 0:
+                    parens.pop()
+                else:
+                    return False
+        return parens.size() == 0
+
+    def build_parse_tree(self, exp: str) -> str:
         # todo
         pass 
 
-    def build_parse_tree(self, exp : str) ->str:
-        # todo
-        pass 
-
-    def _evaluate(self, root):
-        op = { '+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
+    #def _evaluate(self, root):
+        #op = { '+':operator.add, '-':operator.sub, '*':operator.mul, '/':operator.truediv}
         # todo
         pass 
 

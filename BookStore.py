@@ -2,6 +2,7 @@ import Book
 import ArrayList
 import ArrayQueue
 import RandomQueue
+import MaxQueue
 import DLList
 import SLLQueue
 import ChainedHashTable
@@ -12,14 +13,16 @@ import time
 
 
 
+
 class BookStore:
     '''
     BookStore: It simulates a book system such as Amazon. It allows  searching,
     removing and adding in a shopping cart. 
     '''
-    def __init__(self) :
+    def __init__(self):
         self.bookCatalog = None
-        self.shoppingCart = ArrayQueue.ArrayQueue()
+        self.shoppingCart = MaxQueue.MaxQueue()
+        self.bookIndices = ChainedHashTable.ChainedHashTable()
         
 
     def loadCatalog(self, fileName : str) :
@@ -28,7 +31,7 @@ class BookStore:
                 book records are separated by  ^. The order is key, 
                 title, group, rank (number of copies sold) and similar books
         '''
-        self.bookCatalog = ArrayList.ArrayList()
+        self.bookCatalog = DLList.DLList()
         with open(fileName, encoding="utf8") as f:
             # The following line is the time that the computation starts
             start_time = time.time()
@@ -36,6 +39,7 @@ class BookStore:
                 (key, title, group, rank, similar) = line.split("^")
                 s = Book.Book(key, title, group, rank, similar)
                 self.bookCatalog.append(s)
+                self.bookIndices.add(key, self.bookCatalog.size() - 1)
             # The following line is used to calculate the total time 
             # of execution
             elapsed_time = time.time() - start_time
@@ -49,7 +53,7 @@ class BookStore:
         while q.size() > 0:
             self.shoppingCart.add(q.remove())
         elapsed_time = time.time() - start_time
-        print(f"Setting radomShoppingCart in {elapsed_time} seconds")
+        print(f"Setting randomShoppingCart in {elapsed_time} seconds")
     
     def setShoppingCart(self) :
         q = self.shoppingCart
@@ -89,6 +93,18 @@ class BookStore:
             elapsed_time = time.time() - start_time
             print(f"Added to shopping cart {s} \n{elapsed_time} seconds")
 
+    def addBookByKey(self, key):
+        start_time = time.time()
+        idx = self.bookIndices.find(key)
+
+        if idx is not None:
+            book = self.bookCatalog.get(idx)
+            self.shoppingCart.add(book)
+            print("Added Title: ", book.title())
+        else:
+            print("Book not found.")
+        elapsed_time = time.time() - start_time
+        print(f"addBookByKey completed in {elapsed_time} seconds")
    
     def searchBookByInfix(self, infix : str) :
         '''
@@ -97,7 +113,19 @@ class BookStore:
             infix: A string    
         '''
         start_time = time.time()
-        # todo
+        matches = 0
+        n = self.bookCatalog.size()
+        for i in range(n):
+            book = self.bookCatalog.get(i)
+            if infix in book.title:
+                print("-" * 25)
+                print(book)
+                print()
+                matches += 1
+
+            if matches == 50:
+                break
+        print(f"Infix Matches: {matches}")
         elapsed_time = time.time() - start_time
         print(f"searchBookByInfix Completed in {elapsed_time} seconds")
 
@@ -111,3 +139,9 @@ class BookStore:
             elapsed_time = time.time() - start_time
             print(f"removeFromShoppingCart {u} Completed in {elapsed_time} seconds")
 
+    def getCartBestSeller(self):
+        start_time = time.time()
+        if self.shoppingCart.size() > 0:
+            best_seller = self.shoppingCart.max().title
+            elapsed_time = time.time() - start_time
+            print(f'getCartBestSeller return \n{best_seller} \nCompleted in {elapsed_time} seconds')

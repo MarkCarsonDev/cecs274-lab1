@@ -41,4 +41,4 @@ class ArrayDeque(Deque, ArrayList):
         '''
         return self.remove(self.n-1)
 
-deque = ArrayDeque()
+   

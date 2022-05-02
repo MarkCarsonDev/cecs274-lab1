@@ -1,26 +1,38 @@
 from Interfaces import Queue
 import numpy as np
 
+
 class SLLQueue(Queue):
     class Node:
-        def __init__(self, x : np.object) :
+        def __init__(self, x: np.object):
             self.next = None
             self.x = x
-            
-    def __init__(self) :
+
+    def __init__(self):
         self.head = None
         self.tail = None
         self.n = 0
-        
 
-    def add(self, x :np.object) :
-        # todo
-        pass 
+    def add(self, x: np.object):
+        new_node = self.Node(x)
+        if self.n == 0:
+            self.head = new_node
+        else:
+            self.tail.next = new_node
+        self.tail = new_node
+        self.n += 1
+        return True
 
 
     def remove(self) -> np.object:
-        # todo
-        pass 
+        if self.n == 0:
+            raise IndexError()
+        temp = self.head
+        self.head = self.head.next
+        self.n -= 1
+        if self.n == 0:
+            self.tail = None
+        return temp.x
 
     def size(self) -> int:
         return self.n
@@ -44,5 +56,5 @@ class SLLQueue(Queue):
             x = self.iterator.x
             self.iterator = self.iterator.next
         else:
-             raise StopIteration()
+            raise StopIteration()
         return x

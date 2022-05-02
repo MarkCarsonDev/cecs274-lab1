@@ -1,11 +1,13 @@
 import Calculator
 import BookStore
+import DLList
+
 
 def menu_calculator() :
-    calculator =  Calculator.Calculator()
-    option=""
+    calculator = Calculator.Calculator()
+    option = ""
     while option != '0':
-        print ("""
+        print("""
         1 Check mathematical expression 
         0 Return to main menu
         """)
@@ -33,6 +35,8 @@ def menu_bookstore_system() :
         3 Add a book by index to shopping cart
         4 Remove from the shopping cart
         5 Search book by infix
+        6 Get cart Best Seller
+        7 Add a book by key to shooping cary
         0 Return to main menu
         """)
         option=input() 
@@ -44,8 +48,8 @@ def menu_bookstore_system() :
             file_name = input("Introduce the name of the file: ")
             bookStore.loadCatalog(file_name) 
            # bookStore.pathLength(0, 159811)
-        elif option=="2":
-            i = int(("Introduce the index to remove from catalog: "))
+        elif option =="2":
+            i = int("Introduce the index to remove from catalog: ")
             bookStore.removeFromCatalog(i)
         elif option=="3":
             i = int(input("Introduce the index to add to shopping cart: "))
@@ -55,6 +59,16 @@ def menu_bookstore_system() :
         elif option=="5":
             infix = input("Introduce the query to search: ")
             bookStore.searchBookByInfix(infix)
+        elif option == "6":
+            bookStore.getCartBestSeller()
+        elif option == "7":
+            key = input("Introduce the book key:")
+            bookStore.addBookByKey(key)
+
+
+
+
+
         
         ''' 
         Add the menu options when needed
@@ -64,17 +78,30 @@ def menu_bookstore_system() :
 def main() :
     option=""
     while option != '0':
-        print ("""
+        print("""
         1 Calculator
         2 Bookstore System
+        3 palindrome Test
         0 Exit/Quit
         """)
-        option=input() 
+        option = input()
         
-        if option=="1":
+        if option == "1":
             menu_calculator()
-        elif option=="2":
-            menu_bookstore_system()    
+        elif option == "2":
+            menu_bookstore_system()
+        elif option == "3":
+            phrase = input("Enter a word/phrase: ")
+            phrase_list = DLList.DLList()
+            for c in phrase:
+                if c.isalpha():
+                    phrase_list.append(c.lower())
+                isPali = phrase_list.isPalindrome()
+                if isPali:
+                    print("result:Palindrome")
+                else:
+                    print("Result: is not a Palindrome")
+
 
 if __name__ == "__main__":
   main()

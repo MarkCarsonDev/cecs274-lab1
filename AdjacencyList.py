@@ -6,6 +6,7 @@ import ArrayList
 import ArrayStack
 
 
+
 class AdjacencyList(Graph):
     def __init__(self, n : int):
         self.n = n
@@ -46,6 +47,7 @@ class AdjacencyList(Graph):
         for i in range(0, self.n):
             s += "%i,%r\n" % (i, self.adj[i].__str__())
         return s
+
 
 
 
