@@ -16,17 +16,50 @@ class Book:
         '''
         This function allows to make direct comparation using the operator <
         '''
-        return self.rank < a.rank 
+        return self.title.lower() < a.title.lower()
 
     def __gt__(self, a) :  
         '''
         This function allows to make direct comparation using the operator >
         '''
-        return self.rank > a.rank 
+        return self.title.lower() > a.title.lower()
+
+    # describes less than or equal to (<=)
+    def __le__(self, a):
+        if self.title.lower() == a.title.lower():
+            return True
+        if self.title.lower() < a.title.lower():
+            return True
+        return False
+
+
+    def __ge__(self, a):
+        if self.title.lower() == a.title.lower():
+            return True
+        if self.title.lower() > a.title.lower():
+            return True
+        return False
+
+    def __eq__(self, a):
+        longest = ""
+        shortest = ""
+        if len(self.title) > len(a.title):
+            longest = self.title.lower()
+            shortest = a.title.lower()
+        elif len(self.title) < len(a.title):
+            longest = a.title.lower()
+            shortest = self.title.lower()
+        else:
+            return False
+        return longest.__contains__(shortest)
+
 
     def __str__(self):
         '''
         function returns a string containting the book information
         '''
-        return f"\n\tBook: {self.key}\n\tTitle: {self.title}\n\tGroup: {self.group}\n\tRank: {self.rank}"
+        return f"\n\tBook: {self.key}\n\tTitle: {self.title}\n\tGroup: {self.group}\n\tRank: {self.rank}\n\tSimilar: {self.similar}"
+
+    def getTitle(self):
+        return self.title
 
